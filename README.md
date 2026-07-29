@@ -18,6 +18,17 @@
 
 > `workers.dev` 在部分中国大陆网络可能出现 DNS 污染或访问不稳定。生产部署和 D1 数据库均已创建成功；如需国内网络稳定访问，建议后续绑定自有域名。
 
+## EdgeOne 版本
+
+项目同时包含腾讯 EdgeOne Makers 版本：
+
+- 静态 React 前端构建目录：`edgeone-app`
+- EdgeOne API：`edge-functions/api/trip.js`
+- 持久化存储：EdgeOne Blob `shanxi-trip-state`
+- 构建命令：`pnpm build:edgeone`
+
+由于 EdgeOne 对包含中国大陆加速区域的平台默认域名实行内容合规限制，在没有自有域名时，控制台生成的预览链接有效期为 3 小时。绑定自有域名后可获得长期固定地址。
+
 ## 本地开发
 
 需要 Node.js 22.13 或更高版本。
