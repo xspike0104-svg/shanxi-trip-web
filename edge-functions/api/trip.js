@@ -1,6 +1,6 @@
 import { getStore } from "@edgeone/pages-blob";
 
-const ROOM_CODE = "JIN2026";
+const ROOM_CODE = "v我50";
 const STORE_NAME = "shanxi-trip-state";
 
 const ITINERARY = [
@@ -40,7 +40,7 @@ function responseJson(value, status = 200) {
 }
 
 function validCode(value) {
-  return typeof value === "string" && value.trim().toUpperCase() === ROOM_CODE;
+  return typeof value === "string" && value.trim().toLocaleLowerCase() === ROOM_CODE.toLocaleLowerCase();
 }
 
 function roomPrefix() {

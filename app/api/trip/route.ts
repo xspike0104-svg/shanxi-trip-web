@@ -1,6 +1,6 @@
 import { getD1 } from "../../../db";
 
-const ROOM_CODE = "JIN2026";
+const ROOM_CODE = "v我50";
 
 const ITINERARY = [
   [1, "12:00", "抵达太原机场", "机场取车，检查车况并拍照"],
@@ -85,7 +85,7 @@ async function seedRoom(db: D1Database) {
 }
 
 function validCode(value: unknown) {
-  return typeof value === "string" && value.trim().toUpperCase() === ROOM_CODE;
+  return typeof value === "string" && value.trim().toLocaleLowerCase() === ROOM_CODE.toLocaleLowerCase();
 }
 
 export async function GET(request: Request) {

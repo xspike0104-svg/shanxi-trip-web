@@ -33,7 +33,7 @@ type SharedState = {
 };
 
 const MEMBERS = ["大王", "小曾", "大曾", "小陈"];
-const ROOM_CODE = "JIN2026";
+const ROOM_CODE = "v我50";
 const DATES = ["8月8日", "8月9日", "8月10日", "8月11日", "8月12日"];
 const CITIES = ["太原", "太原 → 大同", "大同", "大同 → 太原", "太原"];
 
@@ -96,7 +96,7 @@ export default function TripApp() {
 
   function enterTrip(event: FormEvent) {
     event.preventDefault();
-    if (room.trim().toUpperCase() !== ROOM_CODE) return;
+    if (room.trim().toLocaleLowerCase() !== ROOM_CODE.toLocaleLowerCase()) return;
     localStorage.setItem("shanxi-member", member);
     setJoined(true);
   }
@@ -157,7 +157,7 @@ export default function TripApp() {
           <p className="join-lead">太原与大同的五日自驾，行程、费用和准备事项都放在这里。</p>
           <form onSubmit={enterTrip}>
             <label>旅行口令</label>
-            <input value={room} onChange={(e) => setRoom(e.target.value)} placeholder="输入 JIN2026" />
+            <input value={room} onChange={(e) => setRoom(e.target.value)} placeholder="输入 v我50" />
             <label>我是谁</label>
             <div className="member-grid">
               {MEMBERS.map((name) => (
@@ -168,7 +168,7 @@ export default function TripApp() {
             </div>
             <button className="primary" type="submit">进入旅行空间</button>
           </form>
-          <small>框架演示口令：JIN2026</small>
+          <small>旅行口令：v我50</small>
         </section>
       </main>
     );
