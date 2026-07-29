@@ -32,7 +32,7 @@ type SharedState = {
   checklist: ChecklistItem[];
 };
 
-const MEMBERS = ["小晋", "阿同", "云云", "木木"];
+const MEMBERS = ["大王", "小曾", "大曾", "小陈"];
 const ROOM_CODE = "JIN2026";
 const DATES = ["8月8日", "8月9日", "8月10日", "8月11日", "8月12日"];
 const CITIES = ["太原", "太原 → 大同", "大同", "大同 → 太原", "太原"];
