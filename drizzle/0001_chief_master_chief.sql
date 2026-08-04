@@ -1,0 +1,1 @@
+ALTER TABLE `trip_itinerary` ADD `review_url` text;

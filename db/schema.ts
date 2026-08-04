@@ -8,6 +8,7 @@ export const tripItinerary = sqliteTable("trip_itinerary", {
   time: text("time").notNull(),
   title: text("title").notNull(),
   detail: text("detail").notNull().default(""),
+  reviewUrl: text("review_url"),
   done: integer("done").notNull().default(0),
   updatedAt: text("updated_at").notNull().default(sql`CURRENT_TIMESTAMP`),
 });

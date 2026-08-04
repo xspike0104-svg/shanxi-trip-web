@@ -8,6 +8,13 @@
       "when": 1785307147062,
       "tag": "0000_mean_lady_ursula",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1785824272485,
+      "tag": "0001_chief_master_chief",
+      "breakpoints": true
     }
   ]
 }
