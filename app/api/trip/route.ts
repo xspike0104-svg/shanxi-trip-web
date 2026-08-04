@@ -1,6 +1,6 @@
 import { getD1 } from "../../../db";
 
-const ROOM_CODE = "v我50";
+const ROOM_CODE = "public-shanxi-2026";
 const MEMBERS = ["大王", "小曾", "大曾", "小陈"];
 
 const ITINERARY = [
@@ -120,13 +120,8 @@ async function seedRoom(db: D1Database) {
   }
 }
 
-function validCode(value: unknown) {
-  return typeof value === "string" && value.trim().toLocaleLowerCase() === ROOM_CODE.toLocaleLowerCase();
-}
-
 export async function GET(request: Request) {
-  const code = new URL(request.url).searchParams.get("code");
-  if (!validCode(code)) return Response.json({ error: "旅行口令不正确" }, { status: 403 });
+  void request;
 
   try {
     const db = getD1();
@@ -159,8 +154,6 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   try {
     const payload = await request.json() as Record<string, unknown>;
-    if (!validCode(payload.code)) return Response.json({ error: "旅行口令不正确" }, { status: 403 });
-
     const db = getD1();
     await ensureSchema(db);
     await seedRoom(db);

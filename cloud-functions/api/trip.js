@@ -1,9 +1,8 @@
 import { getStore } from "@edgeone/pages-blob";
 
-const ROOM_CODE = "v我50";
 const STORE_NAME = "shanxi-trip-state";
 const MEMBERS = ["大王", "小曾", "大曾", "小陈"];
-const STATE_KEY = `rooms/${ROOM_CODE}/state-v2.json`;
+const DEFAULT_STATE_KEY = "rooms/public-shanxi-2026/state-v2.json";
 
 const ITINERARY = [
   [1, "12:00", "抵达太原机场", "机场取车，检查车况并拍照"],
@@ -64,10 +63,6 @@ function responseJson(value, status = 200) {
   });
 }
 
-function validCode(value) {
-  return typeof value === "string" && value.trim().toLocaleLowerCase() === ROOM_CODE.toLocaleLowerCase();
-}
-
 function validActor(value) {
   return typeof value === "string" && MEMBERS.includes(value) ? value : MEMBERS[0];
 }
@@ -123,36 +118,11 @@ function defaultState() {
   };
 }
 
-async function migrateLegacyState(store) {
+async function migrateLegacyState(store, stateKey) {
   const state = defaultState();
-  const itineraryKeys = ITINERARY.map((_, index) => `rooms/${ROOM_CODE}/itinerary/${index + 1}.json`);
-  const checklistKeys = CHECKLIST.map((_, index) => `rooms/${ROOM_CODE}/checklist/${index + 1}.json`);
-  const [legacyItinerary, legacyChecklist, expenseListing] = await Promise.all([
-    Promise.all(itineraryKeys.map((key) => store.get(key, { type: "json", consistency: "strong" }))),
-    Promise.all(checklistKeys.map((key) => store.get(key, { type: "json", consistency: "strong" }))),
-    store.list({ prefix: `rooms/${ROOM_CODE}/expenses/`, consistency: "strong" }),
-  ]);
-
-  state.itinerary = state.itinerary.map((fallback, index) => {
-    if (index >= ITINERARY.length) return fallback;
-    const item = legacyItinerary[index];
-    return item ? { ...fallback, ...item, updatedAt: item.updatedAt || fallback.updatedAt } : fallback;
-  });
-  state.checklist = state.checklist.map((fallback, index) => {
-    const item = legacyChecklist[index];
-    return item ? { ...fallback, ...item, updatedAt: item.updatedAt || fallback.updatedAt } : fallback;
-  });
-
-  const expenseValues = await Promise.all(
-    (expenseListing.blobs || []).map(({ key }) =>
-      store.get(key, { type: "json", consistency: "strong" }),
-    ),
-  );
-  state.expenses = expenseValues.filter((item) => item && !item.deleted).map(normalizeExpense);
-  state.expenses.sort((a, b) => b.id - a.id);
   upgradeState(state);
-  await store.setJSON(STATE_KEY, state, { onlyIfNew: true });
-  return (await store.get(STATE_KEY, { type: "json", consistency: "strong" })) || state;
+  await store.setJSON(stateKey, state, { onlyIfNew: true });
+  return (await store.get(stateKey, { type: "json", consistency: "strong" })) || state;
 }
 
 function sortItinerary(items) {
@@ -187,16 +157,16 @@ function upgradeState(state) {
   return changed;
 }
 
-async function loadState(store) {
-  const state = await store.get(STATE_KEY, { type: "json", consistency: "strong" });
-  if (!state) return migrateLegacyState(store);
-  if (upgradeState(state)) await store.setJSON(STATE_KEY, state);
+async function loadState(store, stateKey) {
+  const state = await store.get(stateKey, { type: "json", consistency: "strong" });
+  if (!state) return migrateLegacyState(store, stateKey);
+  if (upgradeState(state)) await store.setJSON(stateKey, state);
   return state;
 }
 
-async function saveState(store, state) {
+async function saveState(store, state, stateKey) {
   state.revision = Number(state.revision || 0) + 1;
-  await store.setJSON(STATE_KEY, state);
+  await store.setJSON(stateKey, state);
 }
 
 function publicState(state) {
@@ -269,22 +239,20 @@ function undoAction(state, auditId, actor) {
   return { ok: true };
 }
 
-export async function onRequest({ request }) {
+export async function onRequest({ request, env }) {
   try {
     const store = getStore({ name: STORE_NAME, consistency: "strong" });
+    const stateKey = env?.TRIP_STATE_KEY || DEFAULT_STATE_KEY;
 
     if (request.method === "GET") {
-      const code = new URL(request.url).searchParams.get("code");
-      if (!validCode(code)) return responseJson({ error: "旅行口令不正确" }, 403);
-      return responseJson(publicState(await loadState(store)));
+      return responseJson(publicState(await loadState(store, stateKey)));
     }
 
     if (request.method !== "POST") return responseJson({ error: "请求方式不支持" }, 405);
 
     const payload = await request.json();
-    if (!validCode(payload.code)) return responseJson({ error: "旅行口令不正确" }, 403);
     const actor = validActor(payload.actor);
-    const state = await loadState(store);
+    const state = await loadState(store, stateKey);
     const now = new Date().toISOString();
 
     if (payload.action === "toggleItinerary") {
@@ -375,7 +343,7 @@ export async function onRequest({ request }) {
       return responseJson({ error: "未知操作" }, 400);
     }
 
-    await saveState(store, state);
+    await saveState(store, state, stateKey);
     return responseJson({ ok: true });
   } catch (error) {
     return responseJson({ error: error instanceof Error ? error.message : "服务暂时不可用" }, 500);

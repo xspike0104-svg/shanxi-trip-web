@@ -48,7 +48,6 @@ type SharedState = {
 };
 
 const MEMBERS = ["大王", "小曾", "大曾", "小陈"];
-const ROOM_CODE = "v我50";
 const DATES = ["8月8日", "8月9日", "8月10日", "8月11日", "8月12日"];
 const CITIES = ["太原", "太原 → 大同", "大同", "大同 → 太原", "太原"];
 const WEEKDAYS = ["周六", "周日", "周一", "周二", "周三"];
@@ -154,7 +153,7 @@ export default function TripApp() {
   async function loadSharedState(options: { silent?: boolean } = {}) {
     if (!options.silent) setSyncing(true);
     try {
-      const response = await fetch(`/api/trip?code=${encodeURIComponent(ROOM_CODE)}`, { cache: "no-store" });
+      const response = await fetch("/api/trip", { cache: "no-store" });
       if (!response.ok) throw new Error("load failed");
       const data = (await response.json()) as SharedState;
       setState(data);
@@ -194,7 +193,7 @@ export default function TripApp() {
     const response = await fetch("/api/trip", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ code: ROOM_CODE, actor: member, ...payload }),
+      body: JSON.stringify({ actor: member, ...payload }),
     });
     if (response.status === 409) {
       const result = await response.json() as { error?: string };
