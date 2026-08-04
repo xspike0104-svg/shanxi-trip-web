@@ -55,7 +55,7 @@ const DAY_ROUTES = [
   "太原机场 → 晋祠 → 钟楼街",
   "山西博物院 → 大同古城",
   "云冈石窟 → 大同古城深度游",
-  "大同 → 悬空寺 → 应县木塔 → 太原",
+  "大同 → 悬空寺 → 浑源午餐 → 应县木塔 → 太原",
   "太原市内 → 特色午餐 → 机场",
 ];
 const DAY_SCENES = ["晋祠", "山西博物院", "云冈石窟", "悬空寺", "双塔寺"];
@@ -87,6 +87,9 @@ const FALLBACK: SharedState = {
     { id: 17, day: 3, time: "备选", title: "老柴刀削面（备选）", detail: "9:00 开门；若当天晚出发或临时调整时使用", done: 0, updatedAt: EMPTY_TIME, reviewUrl: "https://www.dianping.com/shop/H9rkzCvOKyordHic" },
     { id: 16, day: 4, time: "07:00", title: "东方刀削面（早餐）", detail: "7:00 营业；吃完出发前往悬空寺", done: 0, updatedAt: EMPTY_TIME, reviewUrl: "https://www.dianping.com/shop/H2e1JbZiMquWmo1H" },
     { id: 9, day: 4, time: "09:00", title: "悬空寺", detail: "登临票限流，穿防滑鞋", done: 0, updatedAt: EMPTY_TIME },
+    { id: 30, day: 4, time: "11:30", title: "张三凉粉（浑源加餐）", detail: "悬空寺后进浑源县城，少量尝鲜；出发前确认门店位置与营业状态", done: 0, updatedAt: EMPTY_TIME, reviewUrl: "https://www.amap.com/search?query=%E5%BC%A0%E4%B8%89%E5%87%89%E7%B2%89&city=%E6%B5%91%E6%BA%90%E5%8E%BF" },
+    { id: 31, day: 4, time: "12:00", title: "鸿福酒楼·恒山南路山门店（午餐主选）", detail: "恒山南路56号（岳麓家园对面）；适合4人正式午餐，饭后前往应县木塔", done: 0, updatedAt: EMPTY_TIME, reviewUrl: "https://gs.ctrip.com/html5/you/foods/fooddetail/3026/8321177.html" },
+    { id: 32, day: 4, time: "12:00备", title: "大霞凉粉（午餐备选）", detail: "浑源本地老字号；最新门店信息不完整，出发前在地图确认营业状态", done: 0, updatedAt: EMPTY_TIME, reviewUrl: "https://www.amap.com/search?query=%E5%A4%A7%E9%9C%9E%E5%87%89%E7%B2%89&city=%E6%B5%91%E6%BA%90%E5%8E%BF" },
     { id: 10, day: 4, time: "13:30", title: "应县木塔", detail: "15:00 左右启程返回太原", done: 0, updatedAt: EMPTY_TIME },
     { id: 11, day: 4, time: "18:30", title: "抵达太原", detail: "入住带停车场的酒店", done: 0, updatedAt: EMPTY_TIME },
     { id: 12, day: 5, time: "08:30", title: "双塔寺", detail: "随后前往柳巷、钟楼街", done: 0, updatedAt: EMPTY_TIME },
@@ -454,8 +457,8 @@ export default function TripApp() {
                     <span className="check">{item.done ? "✓" : ""}</span>
                   </button>
                   {item.reviewUrl && (
-                    <a className="restaurant-link" href={item.reviewUrl} target="_blank" rel="noreferrer" aria-label={`在大众点评查看${item.title}`}>
-                      大众点评 · 查看门店 ↗
+                    <a className="restaurant-link" href={item.reviewUrl} target="_blank" rel="noreferrer" aria-label={`查看${item.title}门店信息`}>
+                      查看门店信息 ↗
                     </a>
                   )}
                 </article>

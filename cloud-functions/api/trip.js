@@ -37,6 +37,9 @@ const FOOD_ITEMS = [
   { id: 27, day: 3, time: "18:30", title: "弘雅饭店（晚餐主选）", detail: "古城深度游结束后用餐，优先提前确认桌位", reviewUrl: "https://www.dianping.com/shop/2120494" },
   { id: 28, day: 3, time: "18:30备", title: "花园大饭店（晚餐备选）", detail: "鼓楼、永泰街附近收尾时顺路", reviewUrl: "https://www.dianping.com/shop/EZgfZLvc4J1aqt1K" },
   { id: 29, day: 3, time: "18:30备", title: "紫泥369·四牌楼店（晚餐备选）", detail: "位于古城中心，建议下午游览时先取号", reviewUrl: "https://www.dianping.com/shop/77277092" },
+  { id: 30, day: 4, time: "11:30", title: "张三凉粉（浑源加餐）", detail: "悬空寺后进浑源县城，少量尝鲜；出发前确认门店位置与营业状态", reviewUrl: "https://www.amap.com/search?query=%E5%BC%A0%E4%B8%89%E5%87%89%E7%B2%89&city=%E6%B5%91%E6%BA%90%E5%8E%BF" },
+  { id: 31, day: 4, time: "12:00", title: "鸿福酒楼·恒山南路山门店（午餐主选）", detail: "恒山南路56号（岳麓家园对面）；适合4人正式午餐，饭后前往应县木塔", reviewUrl: "https://gs.ctrip.com/html5/you/foods/fooddetail/3026/8321177.html" },
+  { id: 32, day: 4, time: "12:00备", title: "大霞凉粉（午餐备选）", detail: "浑源本地老字号；最新门店信息不完整，出发前在地图确认营业状态", reviewUrl: "https://www.amap.com/search?query=%E5%A4%A7%E9%9C%9E%E5%87%89%E7%B2%89&city=%E6%B5%91%E6%BA%90%E5%8E%BF" },
 ];
 
 const ITINERARY_UPDATES = [
@@ -93,7 +96,7 @@ function normalizeExpense(item) {
 function defaultState() {
   const initialTime = new Date(0).toISOString();
   return {
-    version: 6,
+    version: 7,
     revision: 0,
     itinerary: [
       ...ITINERARY.map(([day, time, title, detail], index) => ({
@@ -130,7 +133,7 @@ function sortItinerary(items) {
 }
 
 function upgradeState(state) {
-  let changed = Number(state.version || 0) < 6;
+  let changed = Number(state.version || 0) < 7;
   for (const update of ITINERARY_UPDATES) {
     const existing = state.itinerary.find((item) => item.id === update.id);
     if (!existing) continue;
@@ -150,7 +153,7 @@ function upgradeState(state) {
     }
   }
   if (changed) {
-    state.version = 6;
+    state.version = 7;
     state.revision = Number(state.revision || 0) + 1;
     sortItinerary(state.itinerary);
   }
