@@ -63,7 +63,7 @@ const EMPTY_TIME = new Date(0).toISOString();
 
 const FALLBACK: SharedState = {
   itinerary: [
-    { id: 1, day: 1, time: "12:00", title: "抵达太原机场", detail: "机场取车，检查车况并拍照", done: 0, updatedAt: EMPTY_TIME },
+    { id: 1, day: 1, time: "11:15", title: "抵达太原武宿机场 T2", detail: "09:30 成都天府机场 T2 起飞；抵达后机场取车，检查车况并拍照", done: 0, updatedAt: EMPTY_TIME },
     { id: 18, day: 1, time: "13:00", title: "卫家剔尖小馆（午餐）", detail: "取车后先吃午饭，再前往晋祠", done: 0, updatedAt: EMPTY_TIME, reviewUrl: "https://www.dianping.com/shop/l1y54Qx0N0nti9Aj" },
     { id: 19, day: 1, time: "13:00备", title: "龙聚祥（午餐备选）", detail: "卫家排队较久或路线临时调整时使用", done: 0, updatedAt: EMPTY_TIME, reviewUrl: "https://www.dianping.com/shop/k9leS84p5DO2618O" },
     { id: 2, day: 1, time: "14:30", title: "晋祠", detail: "建议游览至 17:30 左右", done: 0, updatedAt: EMPTY_TIME },
@@ -92,11 +92,20 @@ const FALLBACK: SharedState = {
     { id: 30, day: 4, time: "11:30", title: "张三凉粉（浑源加餐）", detail: "悬空寺后进浑源县城，少量尝鲜；出发前确认门店位置与营业状态", done: 0, updatedAt: EMPTY_TIME, reviewUrl: "https://www.amap.com/search?query=%E5%BC%A0%E4%B8%89%E5%87%89%E7%B2%89&city=%E6%B5%91%E6%BA%90%E5%8E%BF" },
     { id: 31, day: 4, time: "12:00", title: "鸿福酒楼·恒山南路山门店（午餐主选）", detail: "恒山南路56号（岳麓家园对面）；适合4人正式午餐，饭后前往应县木塔", done: 0, updatedAt: EMPTY_TIME, reviewUrl: "https://gs.ctrip.com/html5/you/foods/fooddetail/3026/8321177.html" },
     { id: 32, day: 4, time: "12:00备", title: "大霞凉粉（午餐备选）", detail: "浑源本地老字号；最新门店信息不完整，出发前在地图确认营业状态", done: 0, updatedAt: EMPTY_TIME, reviewUrl: "https://www.amap.com/search?query=%E5%A4%A7%E9%9C%9E%E5%87%89%E7%B2%89&city=%E6%B5%91%E6%BA%90%E5%8E%BF" },
+    { id: 35, day: 4, time: "19:00", title: "老院子·钟楼街店（晚餐主选）", detail: "回到太原入住后，适合4人吃晋菜正餐；建议提前确认停车与排队", done: 0, updatedAt: EMPTY_TIME, reviewUrl: "https://www.amap.com/search?query=%E8%80%81%E9%99%A2%E5%AD%90%E9%92%9F%E6%A5%BC%E8%A1%97%E5%BA%97&city=%E5%A4%AA%E5%8E%9F" },
+    { id: 36, day: 4, time: "19:00备", title: "老太原菜馆·钟楼街店（晚餐备选）", detail: "钟楼街步行街1号；若主选排队较久，可改吃经典晋菜", done: 0, updatedAt: EMPTY_TIME, reviewUrl: "https://www.dianping.com/shop/l45LUzCIO2sjR4rC" },
+    { id: 37, day: 4, time: "19:00备", title: "清和元·铜锣湾店（晚餐备选）", detail: "可点羊肉烧卖、醋椒羊肉、丸子汤；出发前确认当日营业状态", done: 0, updatedAt: EMPTY_TIME, reviewUrl: "https://www.dianping.com/shop/FGx9u6Js6mUgnn1x/photos?pg=40" },
+    { id: 38, day: 5, time: "08:00", title: "清和元（头脑早餐主选）", detail: "头脑＋羊肉烧卖；早餐档更合适，建议提前确认门店与供应时间", done: 0, updatedAt: EMPTY_TIME, reviewUrl: "https://www.dianping.com/shop/FGx9u6Js6mUgnn1x/photos?pg=40" },
+    { id: 39, day: 5, time: "08:00备", title: "郝刚刚羊杂割·柳巷店（早餐备选）", detail: "柳巷83号；羊杂汤、羊肉汤、油酥饼，公开信息早餐约6:00开始", done: 0, updatedAt: EMPTY_TIME, reviewUrl: "https://www.amap.com/place/B015F037D5" },
+    { id: 40, day: 5, time: "08:00备", title: "六味斋·柳巷店（早餐备选）", detail: "柳巷南路134号；丸子汤、老豆腐、油条、酱肉饼，适合快速解决早餐", done: 0, updatedAt: EMPTY_TIME, reviewUrl: "https://www.dianping.com/shop/17787900/photos/album" },
+    { id: 41, day: 5, time: "11:30", title: "认一力·桥头街店（午餐主选）", detail: "羊肉蒸饺、牛肉蒸饺；点餐相对快捷，午餐后返回酒店取行李", done: 0, updatedAt: EMPTY_TIME, reviewUrl: "https://jp.trip.com/restaurant/china/taiyuan/detail/ren-yili-fanzhuang-30937773/" },
+    { id: 42, day: 5, time: "11:30备", title: "老太原菜馆·钟楼街店（午餐备选）", detail: "若前一晚未选择，可安排晋菜正餐；午餐后尽快前往酒店与机场", done: 0, updatedAt: EMPTY_TIME, reviewUrl: "https://www.dianping.com/shop/l45LUzCIO2sjR4rC" },
+    { id: 43, day: 5, time: "11:30备", title: "老院子·钟楼街店（午餐备选）", detail: "适合4人点菜；如早餐吃得较晚，可在午餐时段改选", done: 0, updatedAt: EMPTY_TIME, reviewUrl: "https://www.amap.com/search?query=%E8%80%81%E9%99%A2%E5%AD%90%E9%92%9F%E6%A5%BC%E8%A1%97%E5%BA%97&city=%E5%A4%AA%E5%8E%9F" },
     { id: 10, day: 4, time: "13:30", title: "应县木塔", detail: "15:00 左右启程返回太原", done: 0, updatedAt: EMPTY_TIME },
     { id: 11, day: 4, time: "18:30", title: "抵达太原", detail: "入住带停车场的酒店", done: 0, updatedAt: EMPTY_TIME },
     { id: 12, day: 5, time: "08:30", title: "双塔寺", detail: "随后前往柳巷、钟楼街", done: 0, updatedAt: EMPTY_TIME },
-    { id: 13, day: 5, time: "11:30", title: "晋菜午餐", detail: "13:00～13:30 出发去机场", done: 0, updatedAt: EMPTY_TIME },
-    { id: 14, day: 5, time: "14:00", title: "机场还车", detail: "验车、值机，16:00 返程", done: 0, updatedAt: EMPTY_TIME },
+    { id: 13, day: 5, time: "11:30", title: "太原市内游＋午餐", detail: "午餐后返回酒店取行李，预留充足时间前往机场", done: 0, updatedAt: EMPTY_TIME },
+    { id: 14, day: 5, time: "16:30", title: "机场还车与值机", detail: "19:35 太原武宿机场 T2 起飞；21:55 抵达成都天府机场 T2", done: 0, updatedAt: EMPTY_TIME },
   ],
   expenses: [],
   checklist: [
